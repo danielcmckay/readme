@@ -6,22 +6,23 @@ class NewsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> cards = List();
-    cards.add(new StoryCard());
-    cards.add(new StoryCard());
-    cards.add(new StoryCard());
-    cards.add(new StoryCard());
+    cards.add(new StoryCard("Hi Dennis look at this cool thing I did I think it looks really cool", 3, "https://source.unsplash.com/random"));
+    cards.add(new StoryCard("Hi Dennis look at this", 3, "https://source.unsplash.com/random"));
+    cards.add(new StoryCard("Hi Dennis look at this", 3, "https://source.unsplash.com/random"));
+    cards.add(new StoryCard("Hi Dennis look at this", 3, "https://source.unsplash.com/random"));
 
     List<Widget> topCards = List();
-    topCards.add(new TopCard());
-    topCards.add(new TopCard());
-    topCards.add(new TopCard());
-    topCards.add(new TopCard());
-
+    topCards.add(new TopCard("Hi Dennis look at this cool thing I did I think it looks really cool", 3, "https://source.unsplash.com/random"));
+    topCards.add(new TopCard("Hi Dennis look at this", 3, "https://source.unsplash.com/random"));
+    topCards.add(new TopCard("Hi Dennis look at this", 3, "https://source.unsplash.com/random"));
+    topCards.add(new TopCard("Hi Dennis look at this", 3, "https://source.unsplash.com/random"));
 
     return Scaffold(
-      body: Container(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(12, 25, 12, 12),
+        child: Container(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -35,7 +36,7 @@ class NewsPage extends StatelessWidget {
                     offset: Offset(0, 3), // changes position of shadow
                   ),
                 ]),
-                height: 450,
+                height: MediaQuery.of(context).size.height * .40,
                 width: double.infinity,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -58,15 +59,14 @@ class NewsPage extends StatelessWidget {
               ),
               Text("Recommended",
                   style: CustomTheme.darkTheme.textTheme.headline1),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
+              Container(
+                height: MediaQuery.of(context).size.height * .40,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
                   child: Expanded(
-                    child: SingleChildScrollView(
-                      scrollDirection: Axis.vertical,
-                      child: Column(
-                        children: cards,
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: cards,
                     ),
                   ),
                 ),
@@ -80,14 +80,19 @@ class NewsPage extends StatelessWidget {
 }
 
 class StoryCard extends StatelessWidget {
-  const StoryCard({Key key}) : super(key: key);
+  final String titleText;
+  final int readTime;
+  final String imageUrl;
+
+  StoryCard(this.titleText, this.readTime, this.imageUrl);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Container(
-        decoration: BoxDecoration(border: Border(), boxShadow: [
+        decoration:
+            BoxDecoration(borderRadius: BorderRadius.circular(7.0), boxShadow: [
           BoxShadow(
             color: Color(0xff25262C).withOpacity(1),
             spreadRadius: 3,
@@ -95,21 +100,24 @@ class StoryCard extends StatelessWidget {
             offset: Offset(1, 3), // changes position of shadow
           ),
         ]),
-        width: double.infinity,
+        width: MediaQuery.of(context).size.width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Container(
-                  child: Image.network(
-                    "https://source.unsplash.com/random",
-                    width: 250,
-                    alignment: Alignment.center,
-                    fit: BoxFit.fitWidth,
-                    scale: 1,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(7.0),
+                    child: Image.network(
+                      imageUrl,
+                      width: 150,
+                      alignment: Alignment.center,
+                      fit: BoxFit.fitWidth,
+                      scale: 1,
+                    ),
                   ),
-                  height: 150),
+                  height: 100),
             ),
             Container(
               child: Expanded(
@@ -120,11 +128,14 @@ class StoryCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Hundreds dead due to 'overwhelming stench' at Everest Base Camp",
+                        titleText,
                         style: TextStyle(
-                            fontWeight: FontWeight.w400, fontSize: 18.0),
+                            fontWeight: FontWeight.w400, fontSize: 16.0),
                       ),
-                      Text("12 min read")
+                      Text("$readTime min read", style: TextStyle(
+                        fontSize: 12,
+                        color: Color(0xff77767C)
+                      ),)
                     ],
                   ),
                 ),
@@ -138,36 +149,40 @@ class StoryCard extends StatelessWidget {
 }
 
 class TopCard extends StatelessWidget {
-  const TopCard({Key key}) : super(key: key);
+  final String titleText;
+  final int readTime;
+  final String imageUrl;
+
+  TopCard(this.titleText, this.readTime, this.imageUrl);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 300,
-      width: 400,
+      width: MediaQuery.of(context).size.width * .80,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.network(
-                "https://source.unsplash.com/random",
-                width: 400,
-                height: 200,
-                alignment: Alignment.center,
-                fit: BoxFit.fitWidth,
-                scale: 1,
-              ),
-              Expanded(
-                child: Text(
-                  "Hundreds dead due to 'overwhelming stench' at Everest Base Camp",
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(7.0),
+                child: Image.network(
+                  imageUrl,
+                  width: 250,
+                  height: 125,
+                  alignment: Alignment.center,
+                  fit: BoxFit.fitWidth,
+                  scale: 1,
                 ),
               ),
-              Text("12 min read")
+              Text(titleText,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+              ),
+              Text("$readTime min read", style: TextStyle(
+                  fontSize: 12,
+                  color: Color(0xff77767C)
+              ),)
             ]),
       ),
     );
