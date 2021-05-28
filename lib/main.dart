@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:readme/pages/newsPage.dart';
+import 'package:readme/pages/readPage.dart';
 import 'package:readme/theme/custom_theme.dart';
 
 void main() {
@@ -12,7 +13,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: CustomTheme.darkTheme,
-      home: NewsPage(),
+      home: ReadPage(
+        "Hello Wolrd",
+        21,
+        "https://source.unsplash.com/random",
+        "Hello world"
+      ),
     );
   }
 }

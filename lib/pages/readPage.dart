@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class NewsPage extends StatefulWidget {
+class ReadPage extends StatefulWidget {
   final String titleText;
   final int readTime;
   final String imageUrl;
   final String textContent;
 
-  NewsPage(this.titleText, this.readTime, this.imageUrl, this.textContent);
+  ReadPage(this.titleText, this.readTime, this.imageUrl, this.textContent);
 
   @override
-  _NewsPageState createState() => _NewsPageState();
+  _ReadPageState createState() => _ReadPageState();
 }
 
-class _NewsPageState extends State<NewsPage> {
+class _ReadPageState extends State<ReadPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
