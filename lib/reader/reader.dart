@@ -17,14 +17,14 @@ class Reader {
     if (response.statusCode == 200) {
       items.forEach((element) {
         feedList.add(Feed(
-            title: element.getElement("title").innerText,
-            link: element.getElement("link").innerText,
-            description: "",
-            pubDate: element.getElement("pubDate").innerText,
+          title: element.getElement("title").innerText,
+          link: element.getElement("link").innerText,
+          description: "",
+          pubDate: element.getElement("pubDate").innerText,
         ));
       });
 
-       return feedList;
+      return feedList;
     } else {
       print("Exception here " + response.body);
       throw Exception('Could not hit endpoint');
