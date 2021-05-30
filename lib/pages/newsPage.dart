@@ -1,21 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:readme/reader/Feed.dart';
+import 'package:readme/reader/reader.dart';
 import 'package:readme/theme/custom_theme.dart';
 
-class NewsPage extends StatelessWidget {
+class NewsPage extends StatefulWidget {
+  // void getStuff() async {
+  //
+  //   if (futureFeed != null) {
+  //     futureFeed.forEach((element) {
+  //       cards.add(new StoryCard(
+  //           element.title, 1, "https://source.unsplash.com/random"));
+  //       topCards.add(new TopCard(
+  //           element.title, 1, "https://source.unsplash.com/random"));
+  //     });
+  //   }
+  // }
+
+  @override
+  _NewsPageState createState() => _NewsPageState();
+}
+
+class _NewsPageState extends State<NewsPage> {
+  Reader reader = Reader();
+  List<Widget> cards = List.empty(growable: true);
+  List<Widget> topCards = List.empty(growable: true);
+
+  @override
+  void initState() {
+    super.initState();
+    List<Feed> futureFeed;
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Widget> cards = List();
-    cards.add(new StoryCard("Hi Dennis look at this cool thing I did I think it looks really cool", 3, "https://source.unsplash.com/random"));
-    cards.add(new StoryCard("Hi Dennis look at this", 3, "https://source.unsplash.com/random"));
-    cards.add(new StoryCard("Hi Dennis look at this", 3, "https://source.unsplash.com/random"));
-    cards.add(new StoryCard("Hi Dennis look at this", 3, "https://source.unsplash.com/random"));
+    FutureBuilder<List<Feed>>(
+      future: null,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return Text(snapshot.data.toString());
+        } else if (snapshot.hasError) {
+          return Text(snapshot.error);
+        }
 
-    List<Widget> topCards = List();
-    topCards.add(new TopCard("Hi Dennis look at this cool thing I did I think it looks really cool", 3, "https://source.unsplash.com/random"));
-    topCards.add(new TopCard("Hi Dennis look at this", 3, "https://source.unsplash.com/random"));
-    topCards.add(new TopCard("Hi Dennis look at this", 3, "https://source.unsplash.com/random"));
-    topCards.add(new TopCard("Hi Dennis look at this", 3, "https://source.unsplash.com/random"));
+        return CircularProgressIndicator();
+      },
+    );
 
     return Scaffold(
       body: Padding(
@@ -63,11 +93,9 @@ class NewsPage extends StatelessWidget {
                 height: MediaQuery.of(context).size.height * .40,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.vertical,
-                  child: Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: cards,
-                    ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: cards,
                   ),
                 ),
               )
@@ -77,6 +105,11 @@ class NewsPage extends StatelessWidget {
       ),
     );
   }
+}
+
+Future<List<Feed>> fetchFeed() async {
+  Reader reader = Reader();
+  return await reader.getFeed();
 }
 
 class StoryCard extends StatelessWidget {
@@ -132,10 +165,11 @@ class StoryCard extends StatelessWidget {
                         style: TextStyle(
                             fontWeight: FontWeight.w400, fontSize: 16.0),
                       ),
-                      Text("$readTime min read", style: TextStyle(
-                        fontSize: 12,
-                        color: Color(0xff77767C)
-                      ),)
+                      Text(
+                        "$readTime min read",
+                        style:
+                            TextStyle(fontSize: 12, color: Color(0xff77767C)),
+                      )
                     ],
                   ),
                 ),
@@ -176,13 +210,14 @@ class TopCard extends StatelessWidget {
                   scale: 1,
                 ),
               ),
-              Text(titleText,
+              Text(
+                titleText,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
               ),
-              Text("$readTime min read", style: TextStyle(
-                  fontSize: 12,
-                  color: Color(0xff77767C)
-              ),)
+              Text(
+                "$readTime min read",
+                style: TextStyle(fontSize: 12, color: Color(0xff77767C)),
+              )
             ]),
       ),
     );
